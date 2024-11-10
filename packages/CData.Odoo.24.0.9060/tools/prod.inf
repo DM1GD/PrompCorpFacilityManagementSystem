@@ -1,0 +1,6 @@
+part=OERK-A
+version=24.0
+build=9060
+prod=Odoo Data provider 2024
+licpath=./
+licname=System.Data.CData.Odoo

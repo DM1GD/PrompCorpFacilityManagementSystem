@@ -1,0 +1,90 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Final Build\\9thNov\\PrompCorpFacilityManagementSystem\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AC3967BD-5C0C-4518-A7DC-617E97D83FA8}|PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem.csproj|c:\\final build\\9thnov\\prompcorpfacilitymanagementsystem\\prompcorpfacilitymanagementsystem\\controllers\\superadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC3967BD-5C0C-4518-A7DC-617E97D83FA8}|PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem.csproj|solutionrelative:prompcorpfacilitymanagementsystem\\controllers\\superadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AC3967BD-5C0C-4518-A7DC-617E97D83FA8}|PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem.csproj|C:\\Final Build\\9thNov\\PrompCorpFacilityManagementSystem\\prompcorpfacilitymanagementsystem\\views\\superadmin\\supplierdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AC3967BD-5C0C-4518-A7DC-617E97D83FA8}|PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem.csproj|solutionrelative:prompcorpfacilitymanagementsystem\\views\\superadmin\\supplierdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AC3967BD-5C0C-4518-A7DC-617E97D83FA8}|PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem.csproj|C:\\Final Build\\9thNov\\PrompCorpFacilityManagementSystem\\prompcorpfacilitymanagementsystem\\controllers\\odoocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AC3967BD-5C0C-4518-A7DC-617E97D83FA8}|PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem.csproj|solutionrelative:prompcorpfacilitymanagementsystem\\controllers\\odoocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AC3967BD-5C0C-4518-A7DC-617E97D83FA8}|PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem.csproj|C:\\Final Build\\9thNov\\PrompCorpFacilityManagementSystem\\prompcorpfacilitymanagementsystem\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{AC3967BD-5C0C-4518-A7DC-617E97D83FA8}|PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem.csproj|solutionrelative:prompcorpfacilitymanagementsystem\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SupplierDetail.cshtml",
+              "DocumentMoniker": "C:\\Final Build\\9thNov\\PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem\\Views\\SuperAdmin\\SupplierDetail.cshtml",
+              "RelativeDocumentMoniker": "PrompCorpFacilityManagementSystem\\Views\\SuperAdmin\\SupplierDetail.cshtml",
+              "ToolTip": "C:\\Final Build\\9thNov\\PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem\\Views\\SuperAdmin\\SupplierDetail.cshtml",
+              "RelativeToolTip": "PrompCorpFacilityManagementSystem\\Views\\SuperAdmin\\SupplierDetail.cshtml",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAewD8AAABUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-09T11:15:32.868Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SuperAdminController.cs",
+              "DocumentMoniker": "C:\\Final Build\\9thNov\\PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem\\Controllers\\SuperAdminController.cs",
+              "RelativeDocumentMoniker": "PrompCorpFacilityManagementSystem\\Controllers\\SuperAdminController.cs",
+              "ToolTip": "C:\\Final Build\\9thNov\\PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem\\Controllers\\SuperAdminController.cs",
+              "RelativeToolTip": "PrompCorpFacilityManagementSystem\\Controllers\\SuperAdminController.cs",
+              "ViewState": "AgIAAGAAAAAAAAAAAAArwGcAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-09T11:11:54.822Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OdooController.cs",
+              "DocumentMoniker": "C:\\Final Build\\9thNov\\PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem\\Controllers\\OdooController.cs",
+              "RelativeDocumentMoniker": "PrompCorpFacilityManagementSystem\\Controllers\\OdooController.cs",
+              "ToolTip": "C:\\Final Build\\9thNov\\PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem\\Controllers\\OdooController.cs",
+              "RelativeToolTip": "PrompCorpFacilityManagementSystem\\Controllers\\OdooController.cs",
+              "ViewState": "AgIAAKAAAAAAAAAAAAAmwLkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-09T11:11:54.888Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Web.config",
+              "DocumentMoniker": "C:\\Final Build\\9thNov\\PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem\\Web.config",
+              "RelativeDocumentMoniker": "PrompCorpFacilityManagementSystem\\Web.config",
+              "ToolTip": "C:\\Final Build\\9thNov\\PrompCorpFacilityManagementSystem\\PrompCorpFacilityManagementSystem\\Web.config",
+              "RelativeToolTip": "PrompCorpFacilityManagementSystem\\Web.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAEwBQAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2024-11-09T11:11:08.859Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+﻿@model PrompCorpFacilityManagementSystem.Models.SuperAdminModel
+@{
+    ViewBag.Title = "PrompComp Facility Management System - Addd Supplier";
+    Layout = "~/Views/_layout.cshtml";
+}
+@Styles.Render("~/bundles/dtCssMSD")
+@Scripts.Render("~/bundles/dtJsMSD")
+
+
+<section class="content">
+    <div class="container-fluid" id="mainDiv">
+        <center>
+            <div style="display:none;" class="loading-image" id="loader"><img src="/images/loading.gif" /></div>
+        </center>
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Add/Edit Supplier</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Supplier Name</label>
+                            <input type="text" class="form-control" id="txtSupplierName" placeholder="Enter Supplier Name here" tabindex="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" class="form-control" id="txtPhone" placeholder="Enter Phone No here" tabindex="3">
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Contact Name</label>
+                            <input type="text" class="form-control" id="txtContactName" placeholder="Enter Contact Name here" tabindex="2">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="text" class="form-control" id="txtEmail" placeholder="Enter Email here" tabindex="4">
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Country</label>
+                            @Html.DropDownListFor(m => m.lCountries, Model.lCountries, "-- Select Country --", new { @class = "form-control", @id = "countriesList", @onchange = "getCountryCities(this.value);", @tabindex = "5" })
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <select class="form-control" id="citiesList" name="citiesList" tabindex="6"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Address</label>
+                            <textarea class="form-control" id="txtAddress" tabindex="7"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Supplier Image</label>
+                            <input type="file" id="fuSupplierImage" />
+                        </div>
+                        <div class="form-group">
+                            <label>Is Active</label>
+                            <input type="checkbox" class="form-check" id="chkActive" tabindex="8" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-body">
+        <input type="button" id="btnAdd" class="btn btn-primary" onclick="AddEditSupplier();" value="Submit" tabindex="10" />
+    </div>
+    <div class="card-footer">
+        <input type="hidden" id="hfSupplierID" value="0" />
+        <input type="hidden" id="hfSupplierImage" value="" />
+    </div>
+</section>
+
+<script type="text/javascript">
+    function getCountryCities(CountryID) {
+    $('#loader').show();
+    return $.ajax({
+        type: 'GET',
+        url: '@Url.Action("GetCountryCities", "SuperAdmin")',
+        data: { 'CountryID': CountryID },
+        success: function (data) {
+            var s = '<option value="-1">-- Select City --</option>';
+            for (var i = 0; i < data.length; i++) {
+                s += '<option value="' + data[i].CityID + '">' + data[i].CityName + '</option>';
+            }
+            $("#citiesList").html(s);
+            $('#loader').hide();
+        },
+        error: function (ex) {
+            console.log(ex);
+            $('#loader').hide();
+        }
+    });
+}
+</script>
+<script type="text/javascript">
+    function returnFileName(SourceName) {
+        SourceName = SourceName.replace("https://", "");
+        SourceName = SourceName.replace("http://", "");
+        SourceName = SourceName.replace("www.", "");
+        SourceName = SourceName.replace(".", "");
+        SourceName = SourceName.replace("/", "");
+        return SourceName;
+
+    }
+    function AddEditSupplier() {
+        $('#loader').show();
+        $('#btnAdd').hide();
+        var sID = $("#hfSupplierID").val();
+        var supplierImage = $('#hfSupplierImage').val();
+        var isActive = "0";
+        if ($("#chkActive").prop("checked") == true)
+            isActive = "1";
+        var fileUpload = $("#fuSupplierImage").get(0);
+        var files = fileUpload.files;
+        var HasAddtionalFiles = 0;
+        var uploadedFileName = '';
+        var fileData = new FormData();
+        fileData.append("sLogo", returnFileName($("#txtSupplierName").val()));
+        if (files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+            $.ajax({
+                url: '@Url.Action("UploadSupplierLogo", "SuperAdmin")',
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                async: false,
+                success: function (result) {
+
+                    uploadedFileName = result;
+                }
+            });
+        }
+        else {
+            uploadedFileName = supplierImage;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("AddEditSupplier", "SuperAdmin")',
+            data: {
+                'SupplierID': sID, 'SupplierName': $('#txtSupplierName').val(), 'ContactName': $('#txtContactName').val(),
+                'Phone': $('#txtPhone').val(),
+                'Email': $('#txtEmail').val(),
+                'Address': $('#txtAddress').val(),
+                'CityID': $('#citiesList').val(),
+                'CountryID': $('#countriesList').val(),
+                'Status': isActive,
+                'SupplierImage': uploadedFileName
+            },
+            success: function (data) {
+                window.location.href = "/admin/";
+            },
+            error: function (ex) {
+                console.log(ex);
+
+            }
+        });
+
+    }
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var supplierId = '@ViewData["SupplierId"]';
+        if (supplierId) {
+            $('#loader').show();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetSpecificSupplier", "SuperAdmin")',
+                dataType: 'json',
+                data: { 'id': supplierId },
+                success: function (data) {
+                    $('#txtSupplierName').val(data[0].SupplierName);
+                    $('#imgLogo').attr("src", "/images/SourcesLogo/" + data[0].SourceLogo);
+                    $('#txtPhone').val(data[0].Phone);
+                    $('#txtContactName').val(data[0].ContactName);
+                    $('#txtEmail').val(data[0].Email);
+                    $('#countriesList').val(data[0].CountryID);
+                    getCountryCities(data[0].CountryID).then(function () {
+                        $("#citiesList").val(data[0].CityID).change();
+                    });
+
+                    if (data[0].Status == "1") {
+                        $('#chkActive').prop('checked', true);
+                    }
+                    $('#hfSupplierID').val(data[0].SupplierID);
+                    $('#btnAdd').val("Update");
+                    $('#txtAddress').val(data[0].Address);
+                    $('#hfSupplierImage').val(data[0].SupplierImage);
+                    $('#loader').hide();
+                },
+                error: function () {
+                    alert("An error occurred while fetching supplier data.");
+                    $('#loader').hide();
+                }
+            });
+        }
+    });
+</script>

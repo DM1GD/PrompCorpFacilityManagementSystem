@@ -1,0 +1,406 @@
+﻿@model PrompCorpFacilityManagementSystem.Models.SuperAdminModel
+
+@{
+    ViewBag.Title = "PrompCorp Facility Management System - Asset Detail";
+    Layout = "~/Views/_layout.cshtml";
+
+}
+@{string AssetName = Model.Assets != null ? Model.Assets[0].AssetName : "Asset Details"; }
+@Styles.Render("~/bundles/dtCssMSEditor")
+@Scripts.Render("~/bundles/dtJsMSEditor")
+<link href="/css/jquery.datetimepicker.css" rel="stylesheet">
+<script src="/js/jquery.datetimepicker.full.js"></script>
+<section class="content">
+
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">@AssetName</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <center>
+                <div style="display:none;" class="loading-image" id="loader"><img src="/images/loading.gif" /></div>
+            </center>
+
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
+                    <div class="row">
+                        <div class="col-12 col-sm-3">
+                            <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted">Name</span>
+                                    <span class="info-box-number text-center text-muted mb-0">@Model.Assets[0].AssetName</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-3">
+                            <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted">Category</span>
+                                    <span class="info-box-number text-center text-muted mb-0" id="spanLeadStatus">@Model.Assets[0].CategoryName</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-3">
+                            <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted">Brand</span>
+                                    <span class="info-box-number text-center text-muted mb-0">@Model.Assets[0].BrandName</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-3">
+                            <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted">Price</span>
+                                    <span class="info-box-number text-center text-muted mb-0">
+                                        @Model.Assets[0].Price
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-12">
+                            <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted">Description</span>
+                                    <span class="info-box-number text-center text-muted mb-0">@Model.Assets[0].AssetDescription</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="text-primary"> Maintenance Record <i class="fa fa-plus" style="cursor:pointer;" onclick="AddMaintenanceRecord('@Model.Assets[0].AssetID');" aria-hidden="true"></i></h3>
+                    @if (Model.MaintenanceRecord != null)
+                    {
+                        <div style="max-height:1200px !important;">
+                            @foreach (var item in Model.MaintenanceRecord)
+                            {
+                                <div class="row">
+
+                                    <div class="col-12 col-sm-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Date</span>
+                                                <span class="info-box-number text-center text-muted mb-0">@item.MaintenanceDate'</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Technician</span>
+                                                <span class="info-box-number text-center text-muted mb-0">@item.TechnicianName</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Description</span>
+                                                <span class="info-box-number text-center text-muted mb-0">@item.Description</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-2">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Next Due Date</span>
+                                                <span class="info-box-number text-center text-muted mb-0">@item.NextMaintenanceDate</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                        </div>
+                    }
+
+                    <h3 class="text-primary">
+                        Asset Issuance Record
+                        @if (Model.Assets[0].AssetStatusID == 1)
+                        { <i class="fa fa-plus" style="cursor:pointer;" onclick="AddIssuanceRecord();" aria-hidden="true"></i>
+                        }
+                        else
+                        {
+                            <i class="fa fa-box-open" style="cursor:pointer;" title="Click to release asset" onclick="ReleaseAsset('@Model.Assets[0].AssetID');" aria-hidden="true"></i>
+                        }
+                    </h3>
+                    @if (Model.AssetIssuedHistory != null)
+                    {
+                        <div style="max-height:1200px !important;">
+                            @foreach (var item in Model.AssetIssuedHistory)
+                            {
+                            <div class="row">
+
+                                <div class="col-12 col-sm-3">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Issued On</span>
+                                            <span class="info-box-number text-center text-muted mb-0">@item.IssuedOn'</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-3">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Issued By</span>
+                                            <span class="info-box-number text-center text-muted mb-0">@item.IssuedByName</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Location</span>
+                                            <span class="info-box-number text-center text-muted mb-0">@item.BuildingName</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-2">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Released On</span>
+                                            <span class="info-box-number text-center text-muted mb-0">@item.ReleasedOn</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
+                    <h3 class="text-primary">Supplier Details</h3>
+                    @if (Model.Suppliers != null)
+                    {
+                    <div class="text-muted">
+                        <p class="text-sm">
+                            Supplier Name
+                            <b class="d-block"><a href="/supplier-detail/@Model.Suppliers[0].SupplierID">@Model.Suppliers[0].SupplierName</a></b>
+                        </p>
+                        <p class="text-sm">
+                            Contact Person Name
+                            <b class="d-block">@Model.Suppliers[0].ContactName</b>
+                        </p>
+                        <p class="text-sm">
+                            Email
+                            <b class="d-block"><span id="cEmail"> @Model.Suppliers[0].Email</span></b>
+                        </p>
+                        <p class="text-sm">
+                            Phone
+                            <b class="d-block"><span id="cPhone">@Model.Suppliers[0].Phone</span></b>
+                        </p>
+                        <p class="text-sm">
+                            Since
+                            <b class="d-block">@Model.Suppliers[0].CreatedDate</b>
+                        </p>
+                        <p class="text-sm">
+                            Total Items Purchased
+                            <b class="d-block">@Model.Suppliers[0].TotalItemsPurchased</b>
+                        </p>
+                        <p class="text-sm">
+                            Country
+                            <b class="d-block">@Model.Suppliers[0].CountryName</b>
+                        </p>
+                        <p class="text-sm">
+                            City
+                            <b class="d-block">@Model.Suppliers[0].CityName</b>
+                        </p>
+                    </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal fade" id="modal-success">
+        <div class="modal-dialog  modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add New Maintenance Record</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>Technician</label>
+                    @Html.DropDownListFor(m => m.lTechnicians, Model.lTechnicians, "-- Select Technician --", new { @class = "form-control", @id = "techniciansList" })
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="text" class="form-control" id="txtMaintenanceDate" placeholder="Select Maintenance Date ..." tabindex="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Next Maintenance Date</label>
+                                <input type="text" class="form-control" id="txtNextMaintenanceDate" placeholder="Select Next Maintenance Date ..." />
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea id="txtMaintenanceDescription" rows="5" cols="170" placeholder="Enter maintenance description here .."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-primary" onclick="AddNewMaintenanceRecord(@Model.Assets[0].AssetID);" data-dismiss="modal">Add Maintenance Record</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="modal-new-issue">
+        <div class="modal-dialog  modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add New Issue Record</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>Location</label>
+                    @Html.DropDownListFor(m => m.lLocations, Model.lLocations, "-- Select Location --", new { @class = "form-control", @id = "locationsList" })
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="text" class="form-control" id="txtIssueDate" placeholder="Select Issue Date ..." tabindex="5">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-primary" onclick="AddNewIssueRecord(@Model.Assets[0].AssetID);" data-dismiss="modal">Add Issue Record</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+<script>
+
+    //$(function () {
+    //    $('#txtMaintenanceDescription').summernote();
+    //});
+    $(function () {
+        $('#txtIssueDate').datetimepicker({
+            dayOfWeekStart: 1,
+            lang: 'en'
+        });
+    });
+    $(function () {
+        $('#txtMaintenanceDate').datetimepicker({
+            dayOfWeekStart: 1,
+            lang: 'en'
+        });
+    });
+    $(function () {
+        $('#txtNextMaintenanceDate').datetimepicker({
+            dayOfWeekStart: 1,
+            lang: 'en'
+        });
+    });
+    function AddIssuanceRecord() {
+        $('#modal-new-issue').modal('toggle');
+    }
+    function AddMaintenanceRecord() {
+        $('#modal-success').modal('toggle');
+    }
+    function AddNewMaintenanceRecord(AssetID) {
+        var CID = "0";
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: '@Url.Action("InserNewMaintenanceRecord", "SuperAdmin")',
+            data: {
+                'AssetID': AssetID, 'MaintenanceDate': $("#txtMaintenanceDate").val(),
+                'Description': $("#txtMaintenanceDescription").val(),
+                'TechnicianID': $("#techniciansList").val(),
+                'NextMaintenanceDate': $("#txtMaintenanceDate").val()
+            },
+            success: function (data) {
+                if (data != "0") {
+                    window.location.reload();
+                }
+                else {
+                    alert("Something went wrong ..");
+                }
+            },
+            error: function (ex) {
+                console.log(ex);
+                $('#loader').hide();
+                alert(ex);
+
+            }
+        });
+    }
+    function AddNewIssueRecord(AssetID) {
+        var CID = "0";
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: '@Url.Action("InsertIssueRecord", "SuperAdmin")',
+            data: {
+                'AsseteID': AssetID, 'LocationID': $("#locationsList").val(),
+                'IssueDate': $("#txtIssueDate").val()
+            },
+            success: function (data) {
+                if (data != "0") {
+                    window.location.reload();
+                }
+                else {
+                    alert("Something went wrong ..");
+                }
+            },
+            error: function (ex) {
+                console.log(ex);
+                $('#loader').hide();
+                alert(ex);
+
+            }
+        });
+    }
+
+    function ReleaseAsset(AssetID) {
+        if (confirm("Are you sure you want to release this asset?")) {
+            $('#loader').show();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ReleaseAsset", "SuperAdmin")',
+                dataType: 'json',
+                async: false,
+                data: { 'AssetID': AssetID, },
+                success: function (data) {
+                    if (data == "1") {
+                        $('#loader').hide();
+                        window.location.reload();
+                    }
+                    else {
+                        $('#loader').hide();
+                        $('#modal-open').modal('toggle');
+                    }
+                }
+            });
+            $('#loader').hide();
+        }
+    }
+</script>

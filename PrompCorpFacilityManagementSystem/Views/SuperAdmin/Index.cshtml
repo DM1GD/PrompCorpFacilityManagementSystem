@@ -1,0 +1,168 @@
+﻿@model PrompCorpFacilityManagementSystem.Models.SuperAdminModel
+@{
+    ViewBag.Title = "PrompComp Facility Management System - Admin";
+    Layout = "~/Views/_layout.cshtml";
+}
+@Styles.Render("~/bundles/dtCssMSEditor")
+@Scripts.Render("~/bundles/dtJsMSEditor")
+<section class="content">
+    <div class="row">
+        <div class="col-lg-6 col-6">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>
+                        @if (Model.Assets != null)
+                        { @Model.Assets.Count}
+                        else
+                        {<text>0</text> }
+                    </h3>
+                    <p>Assets</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                @*<a href="/view-all-assets/" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+        <div class="col-lg-6 col-6">
+            <div class="small-box bg-gradient-green">
+                <div class="inner">
+                    <h3>
+                        @if (Model.Suppliers != null)
+                        { @Model.Suppliers.Count}
+                        else
+                        {<text>0</text> }
+                    </h3>
+                    <p>Suppliers</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                @*<a href="/view-all-suppliers/" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Assets <a class="fa fa-plus" href="/asset-management/"></a></h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="card-body">
+            @if (Model.Assets != null)
+            { <div class="row">
+                @foreach (var item in Model.Assets)
+                {
+
+                    <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+                        <div class="card bg-light d-flex flex-fill">
+                            <div class="card-header text-muted border-bottom-0">
+                                @item.Category
+                                @{ string assetStatusClass = "";
+                                    if (item.AssetStatusID == 1) { assetStatusClass = "fas fa-lg fa-check-circle"; }
+                                    else { assetStatusClass = "fas fa-lg fa-times-circle"; }
+                                }
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <h2 class="lead"><a href="/asset-detail/@item.AssetID"><b>@item.AssetName</b></a></h2>
+                                        <p class="text-muted text-sm"><b>Details: </b>@item.AssetDescription</p>
+                                        <ul class="ml-4 mb-0 fa-ul text-muted">
+                                            <li class="small"><span class="fa-li"><i class="fas fa-lg fa-tag"></i></span> Brand: @item.Brand</li>
+                                            <li class="small"><span class="fa-li"><i class="@assetStatusClass"></i></span> @item.AssetStatus</li>
+                                            <li class="small"><span class="fa-li"><i class="fas fa-lg fa-money-bill-wave"></i></span> @item.Price</li>
+                                            <li class="small"><span class="fa-li"><i class="fas fa-lg fa-calendar-alt"></i></span> Purchase Date: @item.PurchasedDate</li>
+                                            <li class="small"><span class="fa-li"><i class="fas fa-lg fa-truck"></i></span> Supplier:<a href="/supplier-detail/@item.SupplierID"> @item.SupplierName</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-5 text-center">
+                                        <img src="/images/assets/@item.AssetImage" alt="Asset Image" class="img-circle img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="text-right">
+                                    <a href="/asset-management/@item.AssetID" class="btn btn-sm bg-teal">
+                                        <i class="fas fa-pencil-alt"></i>Edit Details
+                                    </a>
+                                    <a href="/asset-detail/@item.AssetID" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-user"></i> View Asset
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                                    }
+            </div>
+                                    }
+
+        </div>
+    </div>
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Suppliers <a class="fa fa-plus" href="/supplier-management/"></a></h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="card-body">
+            @if (Model.Suppliers != null)
+            {
+                <div class="row">
+                    @foreach (var item in Model.Suppliers)
+                    {
+
+                        <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+                            <div class="card bg-light d-flex flex-fill">
+                                <div class="card-header text-muted border-bottom-0">
+                                    @item.SupplierName
+                                </div>
+                                <div class="card-body pt-0">
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <h2 class="lead"><a href="/supplier-detail/@item.SupplierID"><b>@item.ContactName</b></a></h2>
+                                            <p class="text-muted text-sm"><b>Address: </b>@item.Address</p>
+                                            <ul class="ml-4 mb-0 fa-ul text-muted">
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-envelope"></i></span> @item.Email</li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> @item.Phone</li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-map"></i></span> @item.CityName, @item.CountryName</li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-list"></i></span> Items Purchased: @item.TotalItemsPurchased</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-5 text-center">
+                                            <img src="/images/suppliers/@item.SupplierImage" alt="Supplier Image" class="img-circle img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="text-right">
+                                        <a href="/supplier-management/@item.SupplierID" class="btn btn-sm bg-teal">
+                                            <i class="fas fa-pencil-alt"></i>Edit Details
+                                        </a>
+                                        <a href="/supplier-detail/@item.SupplierID" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-user"></i> View Supplier
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            }
+
+        </div>
+    </div>
+
+</section>

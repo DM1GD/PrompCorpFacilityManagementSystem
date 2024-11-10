@@ -1,0 +1,265 @@
+﻿@model PrompCorpFacilityManagementSystem.Models.SuperAdminModel
+
+@{
+    ViewBag.Title = "PrompCorp Facility Management System - Supplier Detail";
+    Layout = "~/Views/_layout.cshtml";
+}
+
+@Styles.Render("~/bundles/dtCssMSEditor")
+@Scripts.Render("~/bundles/dtJsMSEditor")
+<section class="content">
+    <div class="container-fluid">
+
+
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Profile Image -->
+                @if (Model.Suppliers != null)
+                {
+                    <div class="card card-primary card-outline">
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <img class="profile-user-img img-fluid img-circle"
+                                     src="/images/suppliers/@Model.Suppliers[0].SupplierImage"
+                                     alt="@Model.Suppliers[0].SupplierName">
+                            </div>
+                            <h3 class="profile-username text-center">@Model.Suppliers[0].SupplierName</h3>
+
+                            <p class="text-muted text-center">Since: @Model.Suppliers[0].CreatedDate</p>
+                            <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                    <b>Contact Person: </b> @Model.Suppliers[0].ContactName
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Assets Purchased from this Supplier:</b> <a class="float-right">
+                                        @if (Model.Assets != null)
+                                        { <text>@Model.Assets.Count()</text> }
+                                        else
+                                        { <text>0</text> }
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                    </div>
+                }
+
+                <div class="card card-primary">
+                    <div class="card-body">
+
+                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+                        <p class="text-muted">@Model.Suppliers[0].CityName - @Model.Suppliers[0].CountryName</p>
+                        <hr>
+                        <strong><i class="far fa-file-alt mr-1"></i> Contact Information</strong>
+                        <p class="text-muted"><span class="fas fa-envelope"></span> @Model.Suppliers[0].Email<br /><span class="fas fa-phone"></span>@Model.Suppliers[0].Phone</p>
+                    </div>
+
+                </div>
+                <div class="card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Upload Document(s) to Odoo</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="uploadDocumentForm" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="document">Select Document</label>
+                                <input type="file" class="form-control" id="document" name="document" required>
+                            </div>
+                            <button type="button" id="uploadDocumentButton" class="btn btn-primary">Upload Document</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Assets</h3>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.Assets != null)
+            { <div class="row">
+                            @foreach (var item in Model.Assets)
+                {
+
+                        <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+                            <div class="card bg-light d-flex flex-fill">
+                                <div class="card-header text-muted border-bottom-0">
+                                    @item.Category
+                                    @{ string assetStatusClass = "";
+                                                if (item.AssetStatusID == 1) { assetStatusClass = "fas fa-lg fa-check-circle"; }
+                                                else { assetStatusClass = "fas fa-lg fa-times-circle"; }
+                                    }
+                                </div>
+                                <div class="card-body pt-0">
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <h2 class="lead"><a href="/asset-detail/@item.AssetID"><b>@item.AssetName</b></a></h2>
+                                            <p class="text-muted text-sm"><b>Details: </b>@item.AssetDescription</p>
+                                            <ul class="ml-4 mb-0 fa-ul text-muted">
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-tag"></i></span> Brand: @item.Brand</li>
+                                                <li class="small"><span class="fa-li"><i class="@assetStatusClass"></i></span> @item.AssetStatus</li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-money-bill-wave"></i></span> @item.Price</li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-calendar-alt"></i></span> Purchase Date: @item.PurchasedDate</li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-truck"></i></span> Supplier:<a href="/supplier-detail/@item.SupplierID"> @item.SupplierName</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-5 text-center">
+                                            <img src="/images/assets/@item.AssetImage" alt="Asset Image" class="img-circle img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="text-right">
+                                        <a href="/asset-management/@item.AssetID" class="btn btn-sm bg-teal">
+                                            <i class="fas fa-pencil-alt"></i>Edit Details
+                                        </a>
+                                        <a href="/asset-detail/@item.AssetID" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-user"></i> View Asset
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                                                }
+                        </div>
+                                        }
+
+                    </div>
+                </div>
+                <div class="card-primary">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Odoo Documents</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>File</th>
+                                                <th>Uploaded On</th>
+                                                <th>Uploaded By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.SupplierOdooDocuments != null)
+                                            {
+                                                foreach (var item in Model.SupplierOdooDocuments)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <a href="@Url.Action("DownloadFile", "SuperAdmin", new { fileName = item.FileName })" target="_blank">
+                                                                @item.FileName
+                                                            </a>
+                                                        </td>
+
+                                                        <td>
+                                                            @item.UploadedOn
+
+                                                        </td>
+                                                        <td>
+                                                            @item.UploadedBy
+
+                                                        </td>
+
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            @*<div class="card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Odoo Documents</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="documentsList" class="row">
+
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $('#uploadDocumentButton').click(function () {
+            var formData = new FormData();
+            var documentInput = $('#document')[0]; // Get the file input element
+
+            // Append the document and supplierId to the FormData object
+            if (documentInput.files.length > 0) {
+                formData.append('document', documentInput.files[0]);
+            }
+            var supplierId = '@Model.Suppliers[0].SupplierID'; // Get the supplierId from the model
+            formData.append('supplierId', supplierId);
+
+            $.ajax({
+                url: '@Url.Action("CreateDocumentNew", "Odoo")',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error uploading document: ' + error);
+                }
+            });
+        });
+    });
+</script>
+
+@*<script>
+        $(document).ready(function () {
+            var supplierId = '@Model.Suppliers[0].SupplierID';
+            $.ajax({
+                url: '@Url.Action("GetDocumentsBySupplier", "Odoo")',
+                type: 'GET',
+                data: { supplierId: supplierId },
+                success: function (response) {
+                    if (response.success) {
+                        var documentsList = $('#documentsList');
+                        documentsList.empty();
+                        response.documents.forEach(function (document) {
+                            documentsList.append(`
+                                <div class="col-12 col-sm-6 col-md-4">
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${document.DocumentName}</h5>
+                                            <p class="card-text">Uploaded on: ${document.UploadDate}</p>
+                                            <a href="/documents/${document.DocumentID}" class="btn btn-primary">View Document</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+                        });
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error retrieving documents: ' + error);
+                }
+            });
+        });
+    </script>*@
+
